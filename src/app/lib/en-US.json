@@ -173,7 +173,7 @@
     "navigation.refresh": "Refresh",
     "notifications": "Notifications",
     "notification.ecosystem_invited": "Joined ecosystem {ecosystem}",
-    "notification.tx_batch": "Batch processing completed",
+    "notification.tx_batch": "Blockchain has been injected",
     "notification.tx_imprinted": "Imprinted in the blockchain (block {block})",
     "pending": "Pending",
     "privileged": "Privileged mode",

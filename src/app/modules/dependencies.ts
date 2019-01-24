@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import GachainAPI from 'lib/gachainAPI';
+import GachainAPI, { TBodyType } from 'lib/gachainAPI';
 import CodeGenerator, { setIds, convertToTreeData, findTagById, copyObject, idGenerator, updateChildrenText, html2childrenTags } from 'lib/constructor';
 import Properties from 'lib/constructor/properties';
 import getConstructorTemplate from 'lib/constructor/templates';
@@ -28,7 +28,6 @@ import resolveTagHandler from 'lib/constructor/tags';
 import 'whatwg-fetch';
 
 export const apiEndpoint = 'api/v2';
-export const explorerEndpoint = 'https://devexplore.gac.one:8800/api/';
 
 export interface IStoreDependencies {
     api: IAPIDependency;
@@ -37,8 +36,15 @@ export interface IStoreDependencies {
     constructorModule: IConstructorDependenies;
 }
 
+interface IAPIParams {
+    apiHost: string;
+    sessionToken?: string;
+    bodyType?: TBodyType;
+    isEndpoint?: boolean;
+}
+
 export interface IAPIDependency {
-    (options: { apiHost: string, sessionToken?: string }): GachainAPI;
+    (options: IAPIParams): GachainAPI;
 }
 
 interface IConstructorDependenies {
@@ -56,30 +62,41 @@ interface IConstructorDependenies {
 }
 
 const storeDependencies: IStoreDependencies = {
-    api: (params: { apiHost: string, sessionToken?: string } = { apiHost: null }) => new GachainAPI({
-        transport: request => fetch(request.url, {
-            method: request.method,
-            headers: request.headers,
-            body: request.body
+    api: (params: IAPIParams) => {
+        if (!params.bodyType) {
+            params.bodyType = 'formdata';
+        }
 
-        }).then(response =>
-            Promise.all([
-                response.clone().json(),
-                response.clone().text()
+        if (params.isEndpoint === undefined) {
+            params.isEndpoint = true;
+        }
 
-            ]).then(result => ({
-                json: result[0],
-                body: result[1]
+        return new GachainAPI({
+            transport: request => fetch(request.url, {
+                method: request.method,
+                headers: request.headers,
+                body: request.body
 
-            }))
+            }).then(response =>
+                Promise.all([
+                    response.clone().json(),
+                    response.clone().text()
 
-        ).catch(e => {
-            throw e && e.response && e.response.data ? e.response.data.error : null;
-        }),
-        apiHost: params.apiHost,
-        apiEndpoint: params.apiHost !== explorerEndpoint ? apiEndpoint : '',
-        session: params.sessionToken
-    }),
+                ]).then(result => ({
+                    json: result[0],
+                    body: result[1]
+
+                }))
+
+            ).catch(e => {
+                throw e && e.response && e.response.data ? e.response.data.error : null;
+            }),
+            apiHost: params.apiHost,
+            apiEndpoint: params.isEndpoint ? apiEndpoint : '',
+            bodyType: params.bodyType,
+            session: params.sessionToken
+        });
+    },
     defaultKey: 'e5a87a96a445cb55a214edaad3661018061ef2936e63a0a93bdb76eb28251c1f',
     defaultPassword: 'gachain',
     constructorModule: {

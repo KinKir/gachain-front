@@ -66,31 +66,27 @@ class Record extends React.Component<IRecordPromptProps> {
             >
                 <Panel>
                     <Row className="show-grid" >
-                        <Col xs={12} md={5}>
-                            <code>
+                        <Col xs={12} md={4}>
+                            <Panel
+                                bsStyle="primary"
+                                header={<FormattedMessage id="record.member" defaultMessage="Member information" />}
+                            >
+                                <Member
+                                    {...this.props}
+                                />
+                            </Panel>
+                        </Col>
+                        <Col xs={12} md={8}>
+                            <div>
                                 <Panel
                                     bsStyle="primary"
-                                    header={<FormattedMessage id="record.member" defaultMessage="Member information" />}
+                                    header={<FormattedMessage id="record.transaction" defaultMessage="Transaction/transaction" />}
                                 >
-                                    <Member
+                                    <Affair
                                         {...this.props}
                                     />
                                 </Panel>
-                            </code>
-                        </Col>
-                        <Col xs={12} md={7}>
-                            <code>
-                                <div>
-                                    <Panel
-                                        bsStyle="primary"
-                                        header={<FormattedMessage id="record.transaction" defaultMessage="Transaction/transaction" />}
-                                    >
-                                        <Affair
-                                            {...this.props}
-                                        />
-                                    </Panel>
-                                </div>
-                            </code>
+                            </div>
                         </Col>
                     </Row>
                 </Panel>

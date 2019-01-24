@@ -31,6 +31,7 @@ import initializeHandler from './reducers/initializeHandler';
 
 export type State = {
     readonly nodeHost: string;
+    readonly explorerHost: string;
     readonly activationEmail: string;
     readonly localeMessages: { [key: string]: string };
     readonly isCollapsed: boolean;
@@ -41,6 +42,7 @@ export type State = {
 
 export const initialState: State = {
     nodeHost: null,
+    explorerHost: null,
     activationEmail: null,
     localeMessages: defaultLocale,
     isCollapsed: true,

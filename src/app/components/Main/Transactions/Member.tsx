@@ -38,12 +38,12 @@ class Member extends React.PureComponent<IRecordPromptProps>  {
             </CopyToClipboard>
           </Row>
           <Row>
-            <Col xs={12} md={4}><FormattedMessage id="record.assetsName" defaultMessage="Asset name" /></Col>
-            <Col xs={12} md={8}><FormattedMessage id="record.balance" defaultMessage="Balance" /></Col>
+            <Col xs={12} md={6}><FormattedMessage id="record.assetsName" defaultMessage="Asset name" /></Col>
+            <Col xs={12} md={6}><FormattedMessage id="record.balance" defaultMessage="Balance" /></Col>
           </Row>
           <Row>
-            <Col xs={12} md={4}><span>GAC</span></Col>
-            <Col xs={12} md={8}><span style={{ width: '8rem', background: '#00b1ec', color: '#fff', height: '2rem', textAlign: 'center', borderRadius: '.5rem', padding: '.25rem 1rem' }}><span>{qGacToGac(this.props.data.amount)}</span><span style={{ marginLeft: '5px' }}>GAC</span></span></Col>
+            <Col xs={12} md={6}><span>GAC</span></Col>
+            <Col xs={12} md={6}><span style={{ width: '8rem', background: '#00b1ec', color: '#fff', height: '2rem', textAlign: 'center', borderRadius: '.5rem', padding: '.25rem 1rem' }}><span>{qGacToGac(this.props.data.amount)}</span><span style={{ marginLeft: '5px' }}>GAC</span></span></Col>
           </Row>
           <Row>
             <Row style={{ textAlign: 'center' }}><span style={{ backgroundColor: '#fff', fontSize: '16px' }}><FormattedMessage id="record.information" defaultMessage="Transaction information" /></span></Row>
