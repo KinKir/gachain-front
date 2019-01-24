@@ -28,7 +28,7 @@ import { explorerEndpoint } from 'modules/dependencies';
 const FlowingWaterEpic: Epic = (action$, store, { api }) => action$.ofAction(renderFlowing.started)
     .flatMap(action => {
         const wallet = store.getState().auth.wallet;
-        const client = api({ apiHost: explorerEndpoint });
+        const client = api({ apiHost: explorerEndpoint, bodyType: 'payload' });
         return Observable.from(client.getFlowingWater(
             {
                 interface: 'get_find_tranhistory',

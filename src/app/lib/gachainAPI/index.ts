@@ -127,7 +127,6 @@ class GachainAPI {
             ...this._defaultOptions,
             ...options
         };
-        console.log(this._options.apiHost, this._options.bodyType);
         let json: any = null;
         let text: string = null;
         const query = 'get' === method ? queryString.stringify(params) : '';
