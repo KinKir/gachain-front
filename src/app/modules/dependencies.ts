@@ -37,7 +37,7 @@ export interface IStoreDependencies {
     constructorModule: IConstructorDependenies;
 }
 
-interface IAPIOptions {
+interface IAPIParams {
     apiHost: string;
     sessionToken?: string;
     bodyType?: TBodyType;
@@ -45,7 +45,7 @@ interface IAPIOptions {
 }
 
 export interface IAPIDependency {
-    (options: IAPIOptions): GachainAPI;
+    (options: IAPIParams): GachainAPI;
 }
 
 interface IConstructorDependenies {
@@ -63,7 +63,7 @@ interface IConstructorDependenies {
 }
 
 const storeDependencies: IStoreDependencies = {
-    api: (params: IAPIOptions) => {
+    api: (params: IAPIParams) => {
         if (!params.bodyType) {
             params.bodyType = 'formdata';
         }

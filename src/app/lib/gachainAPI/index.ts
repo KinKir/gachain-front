@@ -77,8 +77,9 @@ export interface ISecuredRequestParams extends IRequestParams {
 export interface IAPIOptions {
     apiHost: string;
     apiEndpoint: string;
-    bodyType: TBodyType;
     transport: IRequestTransport;
+    bodyType?: TBodyType;
+    isEndpoint?: boolean;
     session?: string;
     requestOptions?: IRequestOptions<any, any>;
 }
