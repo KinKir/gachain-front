@@ -174,7 +174,7 @@
     "navigation.refresh": "刷新",
     "notifications": "通知",
     "notification.ecosystem_invited": "加入生态系统 {ecosystem}",
-    "notification.tx_batch": "分批处理",
+    "notification.tx_batch": "已注入区块链",
     "notification.tx_imprinted": "已存储于区块 (区块高度 {block})",
     "pending": "待处理",
     "privileged": "特权模式",

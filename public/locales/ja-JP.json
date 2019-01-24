@@ -174,7 +174,7 @@
     "navigation.refresh": "更新",
     "notifications": "通知",
     "notification.ecosystem_invited": "エコシステムへの参加{ecosystem}",
-    "notification.tx_batch": "バッチ処理",
+    "notification.tx_batch": "ブロックされたブロックチェーン",
     "notification.tx_imprinted": "すでにブロックに格納されています（ブロックの高さ{block}）",
     "pending": "保留中",
     "privileged": "特権モード",
