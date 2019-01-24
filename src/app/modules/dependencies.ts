@@ -37,8 +37,15 @@ export interface IStoreDependencies {
     constructorModule: IConstructorDependenies;
 }
 
+interface IAPIOptions {
+    apiHost: string;
+    sessionToken?: string;
+    bodyType?: TBodyType;
+    isEndpoint?: boolean;
+}
+
 export interface IAPIDependency {
-    (options: { apiHost: string, sessionToken?: string, bodyType?: TBodyType }): GachainAPI;
+    (options: IAPIOptions): GachainAPI;
 }
 
 interface IConstructorDependenies {
@@ -56,31 +63,41 @@ interface IConstructorDependenies {
 }
 
 const storeDependencies: IStoreDependencies = {
-    api: (params: { apiHost: string, sessionToken?: string, bodyType?: TBodyType } = { apiHost: null, bodyType: 'formdata' }) => new GachainAPI({
-        transport: request => fetch(request.url, {
-            method: request.method,
-            headers: request.headers,
-            body: request.body
+    api: (params: IAPIOptions) => {
+        if (!params.bodyType) {
+            params.bodyType = 'formdata';
+        }
 
-        }).then(response =>
-            Promise.all([
-                response.clone().json(),
-                response.clone().text()
+        if (params.isEndpoint === undefined) {
+            params.isEndpoint = true;
+        }
 
-            ]).then(result => ({
-                json: result[0],
-                body: result[1]
+        return new GachainAPI({
+            transport: request => fetch(request.url, {
+                method: request.method,
+                headers: request.headers,
+                body: request.body
 
-            }))
+            }).then(response =>
+                Promise.all([
+                    response.clone().json(),
+                    response.clone().text()
 
-        ).catch(e => {
-            throw e && e.response && e.response.data ? e.response.data.error : null;
-        }),
-        apiHost: params.apiHost,
-        apiEndpoint: params.apiHost !== explorerEndpoint ? apiEndpoint : '',
-        bodyType: params.bodyType,
-        session: params.sessionToken
-    }),
+                ]).then(result => ({
+                    json: result[0],
+                    body: result[1]
+
+                }))
+
+            ).catch(e => {
+                throw e && e.response && e.response.data ? e.response.data.error : null;
+            }),
+            apiHost: params.apiHost,
+            apiEndpoint: params.isEndpoint ? apiEndpoint : '',
+            bodyType: params.bodyType,
+            session: params.sessionToken
+        });
+    },
     defaultKey: 'e5a87a96a445cb55a214edaad3661018061ef2936e63a0a93bdb76eb28251c1f',
     defaultPassword: 'gachain',
     constructorModule: {

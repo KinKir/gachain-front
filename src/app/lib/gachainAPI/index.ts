@@ -122,6 +122,7 @@ class GachainAPI {
         const requestUrl = urlJoin(this._options.apiHost, this._options.apiEndpoint, requestEndpoint);
         const params = requestParams && options.requestTransformer ? options.requestTransformer(requestParams) : requestParams;
 
+        console.log(requestUrl);
         // TODO: Set request timeout
         const requestOptions: IRequestOptions<P, R> = {
             ...this._defaultOptions,
