@@ -24,12 +24,13 @@ import queryString from 'query-string';
 import urlJoin from 'url-join';
 import urlTemplate from 'url-template';
 import { IUIDResponse, ILoginRequest, ILoginResponse, IRowRequest, IRowResponse, IPageResponse, IBlockResponse, IMenuResponse, IContentRequest, IContentResponse, IContentTestRequest, IContentJsonRequest, IContentJsonResponse, ITableResponse, ISegmentRequest, ITablesResponse, IDataRequest, IDataResponse, ISectionsRequest, ISectionsResponse, IHistoryRequest, IHistoryResponse, INotificationsRequest, IParamResponse, IParamsRequest, IParamsResponse, IParamRequest, ITemplateRequest, IContractRequest, IContractResponse, IContractsResponse, ITableRequest, TConfigRequest, ISystemParamsRequest, ISystemParamsResponse, IContentHashRequest, IContentHashResponse, TTxCallRequest, TTxCallResponse, TTxStatusRequest, TTxStatusResponse, ITxStatus, IKeyInfo, IEcosystemKeyRequest, IEcosystemKeyResponse, IFlowingWaterRequest, IFlowingWaterResponse, ITotalWaterRequest, ITotalWaterResponse } from 'gachain/api';
-
-import { explorerEndpoint } from 'modules/dependencies';
-
 export type TRequestMethod =
     'get' |
     'post';
+
+export type TBodyType = 
+    'formdata' |
+    'payload';
 
 export interface IRequest {
     method: TRequestMethod;
@@ -76,6 +77,7 @@ export interface ISecuredRequestParams extends IRequestParams {
 export interface IAPIOptions {
     apiHost: string;
     apiEndpoint: string;
+    bodyType: TBodyType;
     transport: IRequestTransport;
     session?: string;
     requestOptions?: IRequestOptions<any, any>;
@@ -120,16 +122,18 @@ class GachainAPI {
         const requestUrl = urlJoin(this._options.apiHost, this._options.apiEndpoint, requestEndpoint);
         const params = requestParams && options.requestTransformer ? options.requestTransformer(requestParams) : requestParams;
 
+        console.log(requestUrl);
         // TODO: Set request timeout
         const requestOptions: IRequestOptions<P, R> = {
             ...this._defaultOptions,
             ...options
         };
-
         let json: any = null;
         let text: string = null;
         const query = 'get' === method ? queryString.stringify(params) : '';
-        const body = 'get' === method ? null : this._options.apiHost === explorerEndpoint ? this.serializeRequestPayload(params) : this.serializeFormData(params);
+        const body = 'get' === method ? 
+            null : this._options.bodyType === 'payload' ? 
+            this.serializeRequestPayload(params) : this.serializeFormData(params);
 
         try {
             const response = await this._options.transport({
