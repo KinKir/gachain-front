@@ -174,7 +174,7 @@
     "navigation.refresh": "刷新",
     "notifications": "通知",
     "notification.ecosystem_invited": "加入生態系統 {ecosystem}",
-    "notification.tx_batch": "分批處理",
+    "notification.tx_batch": "已註入區塊鏈",
     "notification.tx_imprinted": "已存儲於區塊 (區塊高度 {block})",
     "pending": "待處理",
     "privileged": "特權模式",
