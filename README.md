@@ -21,6 +21,17 @@
 **注意：yarn start 将请求服务器的地址默认绑定到http://127.0.0.1:7079/api/v2。 可以使用yarn start-desktop在桌面环境中调试项目。如果需要自定义更多的API请求服务器的地址，需在public目录下创建settings.json文件，示例配置在public目录下settings.json.dist。**
 
 ### 配置示例
+- fullNodes 配置主节点地址
+- explorerHost 配置区块浏览器服务端地址
+
+```json
+{
+    "fullNodes": [
+        "https://devnode1.gac.one:9079"
+    ],
+    "explorerHost": "https://devexplore.gac.one:8800/api"
+}
+```
 
 ### 获取代码
 `$ git clone https://github.com/GACHAIN/gachain-front.git`
