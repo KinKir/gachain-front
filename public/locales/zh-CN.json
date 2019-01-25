@@ -204,7 +204,7 @@
     "tx.error.E_SERVER": "运行错误",
     "tx.error.E_CONTRACT.desc": "合约 '{0}' 不存在",
     "tx.error.E_DELETEDKEY.desc": "你的钱包已被删除",
-    "tx.error.E_GUEST_VIOLATION.desc": "访客模式无法执行交易",
+    "tx.error.E_GUEST_VIOLATION.desc": "访客模式无法执行该操作",
     "tx.error.E_INVALID_PASSWORD.desc": "密码无效",
     "tx.error.E_LIMITFORSIGN.desc": "事务参数太多，无法执行",
     "tx.error.E_OFFLINE.desc": "连接到服务器失败。",
