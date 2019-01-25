@@ -204,7 +204,7 @@
     "tx.error.E_SERVER": "実行エラー",
     "tx.error.E_CONTRACT.desc": "契約 '{0}'が存在しません",
     "tx.error.E_DELETEDKEY.desc": "あなたの財布は削除されました",
-    "tx.error.E_GUEST_VIOLATION.desc": "訪問者モードではトランザクションを実行できません",
+    "tx.error.E_GUEST_VIOLATION.desc": "ゲストモードはこの操作を実行できません",
     "tx.error.E_INVALID_PASSWORD.desc": "パスワードが無効です",
     "tx.error.E_LIMITFORSIGN.desc": "実行するトランザクションパラメータが多すぎます",
     "tx.error.E_OFFLINE.desc": "サーバーへの接続に失敗しました。",
