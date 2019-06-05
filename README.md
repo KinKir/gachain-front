@@ -25,11 +25,32 @@
 
 ```json
 {
-    "fullNodes": [
-        "https://devnode1.gac.one:9079"
-    ],
+    "defaultNetwork": "DEFAULT_NETWORK",
+    "networks": [
+        {
+            "key": "DEFAULT_NETWORK",
+            "name": "Default Network",
+            "networkID": 100,
+            "fullNodes": [
+                "http://127.0.0.1:7079"
+            ],
+            "socketUrl": "",
+            "activationEmail": "",
+            "enableDemoMode": true,
+            "disableSync": false
+        }
+    ]
 }
 ```
+- **defaultNetwork** - 将自动连接的默认网络的键
+- **networks.key** - 指定网络的唯一键
+- **networks.name** - 一个可读的网络名称，将显示在页面中
+- **networks.networkID** - 在所有交易中被标示的唯一标识符。请参考go-gachian实例的配置
+- **networks.fullNodes** - 将用于同步的预构建url列表
+- **networks.socketUrl** - 重写离心机连接端点的可选参数。默认值:由go-apla配置提供。默认值:由go-gachain配置提供
+- **networks.activationEmail** - 可选参数,当没有要登录的激活的节点时，它将显示给用户，用于KYC。
+- **networks.enableDemoMode** - 当设置为true时，将启用使用访客密钥授权
+- **networks.disableSync** - 可选参数，禁用完整节点的同步。不安全，谨慎使用
 
 ### 获取代码
 `$ git clone https://github.com/GACHAIN/gachain-front.git`
