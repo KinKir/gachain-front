@@ -1,24 +1,7 @@
-// MIT License
-//
-// Copyright (c) 2016-2019 GACHAIN
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import React from 'react';
 import { injectIntl, FormattedMessage, InjectedIntlProps } from 'react-intl';
@@ -26,12 +9,12 @@ import { injectIntl, FormattedMessage, InjectedIntlProps } from 'react-intl';
 import LocalizedDocumentTitle from 'components/DocumentTitle/LocalizedDocumentTitle';
 import Generator from './Generator';
 import Validation from 'components/Validation';
-import Heading from 'components/Auth/Heading';
+import HeadingNetwork from 'containers/Auth/HeadingNetwork';
 
 export interface ICreateProps {
     seed: string;
     seedConfirm: string;
-    onCreate: (params: { seed: string, password: string, flag: boolean }) => void;
+    onCreate: (params: { seed: string, password: string }) => void;
     onGenerateSeed: () => void;
     onChangeSeed: (seed: string) => void;
     onChangeSeedConfirmation: (value: string) => void;
@@ -44,7 +27,6 @@ interface ICreateState {
     isConfirming: boolean;
     password: string;
     passwordConfirm: string;
-    flag: boolean;
 }
 
 class Create extends React.Component<ICreateProps & InjectedIntlProps, ICreateState> {
@@ -55,8 +37,7 @@ class Create extends React.Component<ICreateProps & InjectedIntlProps, ICreateSt
         this.state = {
             isConfirming: false,
             password: '',
-            passwordConfirm: '',
-            flag: false,
+            passwordConfirm: ''
         };
     }
 
@@ -66,32 +47,28 @@ class Create extends React.Component<ICreateProps & InjectedIntlProps, ICreateSt
 
     onReturn = () => {
         this.setState({
-            isConfirming: false,
-            flag: true
+            isConfirming: false
         });
     }
 
     onSubmit = (values: { [key: string]: any }) => {
         if (this.state.isConfirming) {
-            this.props.onCreate({ 
-                seed: this.state.flag === false ? '' : this.props.seedConfirm,
-                password: this.state.passwordConfirm,
-                flag: false
+            this.props.onCreate({
+                seed: this.props.seedConfirm,
+                password: this.state.passwordConfirm
             });
         }
         else {
             this.props.onChangeSeedConfirmation('');
             this.setState({
-                isConfirming: this.state.flag === false ? false : true,
-                password: values.password,
-                flag: false
+                isConfirming: true,
+                password: values.password
             });
         }
     }
 
     onGenerate = () => {
         this.props.onGenerateSeed();
-        this.onInput();
     }
 
     onSeedConfirmationChange = (seedConfirm: string) => {
@@ -125,30 +102,24 @@ class Create extends React.Component<ICreateProps & InjectedIntlProps, ICreateSt
         else {
             this.props.onImportSeed(e.target.files[0]);
         }
-        this.onInput();
     }
-
-    onInput = () => {
-        this.setState({ flag: true });
-     }
 
     render() {
         return (
             <LocalizedDocumentTitle title="wallet.create" defaultTitle="Create wallet">
                 <div>
-                    <Heading returnUrl={this.state.isConfirming ? null : '/wallet'} onReturn={this.state.isConfirming ? this.onReturn : null}>
-                        <FormattedMessage id="wallet.create" defaultMessage="Create wallet" />
-                    </Heading>
+                    <HeadingNetwork returnUrl={this.state.isConfirming ? null : '/account'} onReturn={this.state.isConfirming ? this.onReturn : null}>
+                        <FormattedMessage id="wallet.create" defaultMessage="Create account" />
+                    </HeadingNetwork>
                     <input type="file" className="hidden" onChange={this.onLoadSuccess} ref={l => this._inputFile = l} />
                     <div className="text-center">
                         <Validation.components.ValidatedForm onSubmitSuccess={this.onSubmit}>
                             {!this.state.isConfirming && (
                                 <Generator
-                                    seed={this.state.flag === false ? '' : this.props.seed}
+                                    seed={this.props.seed}
                                     onGenerate={this.onGenerate}
                                     onLoad={this.onLoad}
                                     onSave={this.onSave}
-                                    onInput={this.onInput}
                                     onSeedChange={this.props.onChangeSeed}
                                     onPasswordChange={this.onPasswordChange}
                                     password={this.state.password}
@@ -156,16 +127,15 @@ class Create extends React.Component<ICreateProps & InjectedIntlProps, ICreateSt
                                     descriptionValue={
                                         <FormattedMessage
                                             id="auth.remember.disclaimer"
-                                            defaultMessage="Please make sure that you keep your passphrase (wallet seed) safe and remember the password. You will be asked to retype them for confirmation"
+                                            defaultMessage="Please make sure that you keep your passphrase (account seed) safe and remember the password. You will be asked to retype them for confirmation"
                                         />
                                     }
                                 />
                             )}
                             {this.state.isConfirming && (
                                 <Generator
-                                    seed={this.state.flag === false ? '' : this.props.seedConfirm}
+                                    seed={this.props.seedConfirm}
                                     onLoad={this.onLoad}
-                                    onInput={this.onInput}
                                     onSeedChange={this.onSeedConfirmationChange}
                                     onPasswordChange={this.onPasswordConfirmationChange}
                                     password={this.state.passwordConfirm}

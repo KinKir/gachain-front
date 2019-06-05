@@ -1,28 +1,12 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import React from 'react';
 import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import { INetworkEndpoint } from 'gachain/auth';
 import { TSection } from 'gachain/content';
 import { history } from 'store';
 import platform from 'lib/platform';
@@ -31,7 +15,6 @@ import themed from 'components/Theme/themed';
 import Titlebar from './Titlebar';
 import UserMenu from 'containers/Widgets/UserMenu';
 import Navigation from 'containers/Main/Navigation';
-import Transaction from 'containers/Widgets/TransactionRecord';
 import NotificationsMenu from 'containers/Widgets/NotificationsMenu';
 import Toolbar from './Toolbar';
 import SectionButton from 'components/Main/SectionButton';
@@ -39,15 +22,13 @@ import ToolButton from 'components/Main/Toolbar/ToolButton';
 import EditorToolbar from 'containers/Main/Toolbar/EditorToolbar';
 import ToolIndicator from 'components/Main/Toolbar/ToolIndicator';
 import LoadingBar from './LoadingBar';
-// import TransactionsMenu from './TransactionsMenu';
-// import ToolMenu from 'containers/Widgets/ToolMenu';
 
 const StyledWrapper = themed.div`
     background-color: #f6f8fa;
 `;
 
 export interface IMainProps {
-    nodeUrl: string;
+    network: INetworkEndpoint;
     isAuthorized: boolean;
     pending: boolean;
     section: string;
@@ -127,7 +108,7 @@ class Main extends React.Component<IMainProps> {
     }
 
     render() {
-        const appTitle = `Gachain (${this.props.nodeUrl})`;
+        const appTitle = `Gachain ${this.props.network ? '(' + this.props.network.apiHost + ')' : ''}`;
 
         return (
             <StyledWrapper className="wrapper component-main">
@@ -157,9 +138,8 @@ class Main extends React.Component<IMainProps> {
                             </li>
                         ) : null)}
                         <li className="user-menu">
-                            <Transaction />
                             <NotificationsMenu />
-                            {/* <TransactionsMenu /> */}
+                            {/*<TransactionsMenu />*/}
                             <UserMenu />
                         </li>
                     </StyledMenu>
@@ -198,7 +178,6 @@ class Main extends React.Component<IMainProps> {
                 <Navigation />
                 <StyledContent style={{ marginLeft: this.props.navigationVisible ? this.props.navigationSize : 0 }}>
                     {this.props.children}
-                    {/* <ToolMenu /> */}
                 </StyledContent>
             </StyledWrapper >
         );

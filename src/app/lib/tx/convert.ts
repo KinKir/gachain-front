@@ -1,24 +1,7 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 // tslint:disable:no-bitwise
 import { Uint64BE } from 'int64-buffer';
@@ -71,10 +54,10 @@ export const concatBuffer = (a: Uint8Array | ArrayBuffer, b: Uint8Array | ArrayB
         b = new Uint8Array(b);
     }
 
-    const uint8 = new Uint8Array((a as any).length + (b as any).length);
+    const uint8 = new Uint8Array(a.length + b.length);
 
-    uint8.set((a as any), 0);
-    uint8.set((b as any), (a as any).length);
+    uint8.set(a, 0);
+    uint8.set(b, a.length);
 
     return uint8.buffer;
 };
@@ -84,7 +67,7 @@ export const encodeLengthPlusData = (buffer: Uint8Array | ArrayBuffer): ArrayBuf
         buffer = new Uint8Array(buffer);
     }
 
-    return concatBuffer(encodeLength((buffer as any).length), buffer);
+    return concatBuffer(encodeLength(buffer.length), buffer);
 };
 
 export const toMoney = (value: number | string) => {
@@ -101,51 +84,6 @@ export const toMoney = (value: number | string) => {
     }
     if (fraction.length > MONEY_POWER) {
         result = result + `.${fraction.slice(MONEY_POWER, MONEY_POWER * 2)}`;
-    }
-    return result;
-};
-
-const fmoney = (s: number | string, n: number) => {
-    let result;
-    if (s > 1) {
-        n = n > 0 && n <= 20 ? n : 2;
-        s = String(parseFloat(String(s).replace(/[^\d\.-]/g, '')).toFixed(n));
-        let l = s
-            .split('.')[0]
-            .split('')
-            .reverse();
-        let r = s.split('.')[1];
-        let t = '';
-        for (let i = 0; i < l.length; i++) {
-            t += l[i] + ((i + 1) % 3 === 0 && i + 1 !== l.length ? ',' : '');
-        }
-        result = (t.split('').reverse().join('') + '.' + r);
-    } else {
-        result = s;
-    }
-    return result;
-};
-
-export const qGacToGac = (value: number | string) => {
-    let result;
-    let s = String(value);
-    if (s.length > MONEY_POWER) {
-        let sArr = [
-            s.substr(0, s.length - MONEY_POWER),
-            s.substr(-MONEY_POWER)
-        ];
-        let sStr = parseFloat(sArr.join('.'));
-        result = fmoney(sStr, 4);
-    } else {
-        let prefix = '';
-        for (let i = 0; i <= MONEY_POWER - s.length; i++) {
-            if (i === 0) {
-                prefix += '0.';
-            } else {
-                prefix += '0';
-            }
-        }
-        result = parseFloat(`${prefix}${value}`);
     }
     return result;
 };

@@ -1,24 +1,7 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -40,6 +23,7 @@ interface IAppContainerState {
     isAuthenticated: boolean;
     isLoaded: boolean;
     isCollapsed: boolean;
+    isFatal: boolean;
     localeMessages: { [key: string]: string };
     securityWarningClosed: boolean;
 }
@@ -55,6 +39,7 @@ const AppContainer: React.SFC<IAppContainerProps & IAppContainerState & IAppCont
                 isAuthenticated={props.isAuthenticated}
                 isLoaded={props.isLoaded}
                 isCollapsed={props.isCollapsed}
+                isFatal={props.isFatal}
                 switchWindow={props.switchWindow}
                 securityWarningClosed={props.securityWarningClosed}
             />
@@ -68,6 +53,7 @@ const mapStateToProps = (state: IRootState) => ({
     isAuthenticated: state.auth.isAuthenticated,
     isCollapsed: state.engine.isCollapsed,
     isLoaded: state.engine.isLoaded,
+    isFatal: !!state.engine.fatalError,
     securityWarningClosed: state.storage.securityWarningClosed
 });
 

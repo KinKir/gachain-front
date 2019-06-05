@@ -1,24 +1,7 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import { connect } from 'react-redux';
 import { IRootState } from 'modules';
@@ -29,7 +12,27 @@ import { modalShow } from 'modules/modal/actions';
 
 import WalletList from 'components/Auth/Login/WalletList';
 
+const selectNetwork = (state: IRootState) => {
+    const session = state.engine.guestSession;
+    if (!session) {
+        return undefined;
+    }
+
+    return state.storage.networks.find(l => l.uuid === session.network.uuid);
+};
+
+const selectActivationMail = (state: IRootState) => {
+    const network = selectNetwork(state);
+    return network ? network.activationEmail : '';
+};
+
+const selectDemoEnabled = (state: IRootState) => {
+    const network = selectNetwork(state);
+    return network ? network.demoEnabled : false;
+};
+
 const mapStateToProps = (state: IRootState) => ({
+    isOffline: !state.engine.guestSession,
     pending: state.auth.isLoggingIn,
     wallets: state.storage.wallets.sort((a, b) => a.address > b.address ? 1 : -1).map(wallet => ({
         access: [],
@@ -40,7 +43,8 @@ const mapStateToProps = (state: IRootState) => ({
         ...(state.auth.wallets || []).find(l => l.id === wallet.id)
     })),
     notifications: state.socket.notifications,
-    activationEmail: state.engine.activationEmail
+    activationEmail: selectActivationMail(state),
+    demoModeEnabled: selectDemoEnabled(state)
 });
 
 const mapDispatchToProps = {
@@ -62,16 +66,18 @@ const mapDispatchToProps = {
             activationEmail
         }
     }),
-    onCreate: () => navigate('/wallet'),
+    onCreate: () => navigate('/account'),
     onGuestLogin: () => loginGuest.started(undefined)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps, (state, dispatch: any, props) => ({
     ...props,
+    isOffline: state.isOffline,
     pending: state.pending,
     wallets: state.wallets,
     notifications: state.notifications,
     activationEnabled: !!state.activationEmail,
+    demoModeEnabled: state.demoModeEnabled,
     onRemove: dispatch.onRemove,
     onLogin: dispatch.onLogin,
     onSelect: dispatch.onSelect,

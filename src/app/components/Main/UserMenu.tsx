@@ -1,24 +1,7 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import React from 'react';
 import styled from 'styled-components';
@@ -102,7 +85,7 @@ class UserMenu extends React.Component<IUserMenuProps> {
                                 <>
                                     <li>
                                         <CloseDropdownButton onClick={this.props.onChangePassword}>
-                                            <em className="icon icon-key text-muted." />
+                                            <em className="icon icon-key text-muted" />
                                             <span>
                                                 <FormattedMessage id="general.wallet.changepassword" defaultMessage="Change password" />
                                             </span>
@@ -113,7 +96,7 @@ class UserMenu extends React.Component<IUserMenuProps> {
                                             <CloseDropdownButton>
                                                 <em className="icon icon-shield text-muted" />
                                                 <span>
-                                                    <FormattedMessage id="general.wallet.backup" defaultMessage="Backup wallet" />
+                                                    <FormattedMessage id="general.wallet.backup" defaultMessage="Backup account" />
                                                 </span>
                                             </CloseDropdownButton>
                                         </PageLink>
@@ -134,9 +117,9 @@ class UserMenu extends React.Component<IUserMenuProps> {
                         </div>
                         <ul className="dropdown-group">
                             {this.props.walletEcosystems.map(value => (
-                                <li key={value.ecosystem} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                <li key={value.ecosystem}>
                                     {/*wallet.ecosystem !== this.props.wallet.ecosystem && this.props.switchWallet.bind(this, wallet)*/}
-                                    <CloseDropdownButton onClick={() => this.props.onSwitchEcosystem(value.ecosystem, !value.roles.length)}>
+                                    <CloseDropdownButton style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} onClick={() => this.props.onSwitchEcosystem(value.ecosystem, !value.roles.length)}>
                                         {value.name ?
                                             (
                                                 value.name
@@ -157,7 +140,7 @@ class UserMenu extends React.Component<IUserMenuProps> {
                         <div className="user-title">
                             {this.props.isDefaultWallet ?
                                 (
-                                    <FormattedMessage id="auth.login.guest.name" defaultMessage="Guest" />
+                                    <FormattedMessage id="auth.login.guest" defaultMessage="Demo" />
                                 ) :
                                 (
                                     <span>{this.props.wallet.wallet.address}</span>

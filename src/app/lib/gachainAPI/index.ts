@@ -1,36 +1,16 @@
-// MIT License
-// 
-// Copyright (c) 2016-2019 GACHAIN
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) GACHAIN All rights reserved.
+ *  See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
 import queryString from 'query-string';
 import urlJoin from 'url-join';
 import urlTemplate from 'url-template';
-import { IUIDResponse, ILoginRequest, ILoginResponse, IRowRequest, IRowResponse, IPageResponse, IBlockResponse, IMenuResponse, IContentRequest, IContentResponse, IContentTestRequest, IContentJsonRequest, IContentJsonResponse, ITableResponse, ISegmentRequest, ITablesResponse, IDataRequest, IDataResponse, ISectionsRequest, ISectionsResponse, IHistoryRequest, IHistoryResponse, INotificationsRequest, IParamResponse, IParamsRequest, IParamsResponse, IParamRequest, ITemplateRequest, IContractRequest, IContractResponse, IContractsResponse, ITableRequest, TConfigRequest, ISystemParamsRequest, ISystemParamsResponse, IContentHashRequest, IContentHashResponse, TTxCallRequest, TTxCallResponse, TTxStatusRequest, TTxStatusResponse, ITxStatus, IKeyInfo, IEcosystemKeyRequest, IEcosystemKeyResponse, IFlowingWaterRequest, IFlowingWaterResponse, ITotalWaterRequest, ITotalWaterResponse } from 'gachain/api';
+import { IUIDResponse, ILoginRequest, ILoginResponse, IRowRequest, IRowResponse, IPageResponse, IBlockResponse, IMenuResponse, IContentRequest, IContentResponse, IContentTestRequest, IContentJsonRequest, IContentJsonResponse, ITableResponse, ISegmentRequest, ITablesResponse, IDataRequest, IDataResponse, ISectionsRequest, ISectionsResponse, IHistoryRequest, IHistoryResponse, INotificationsRequest, IParamResponse, IParamsRequest, IParamsResponse, IParamRequest, ITemplateRequest, IContractRequest, IContractResponse, IContractsResponse, ITableRequest, TConfigRequest, ISystemParamsRequest, ISystemParamsResponse, IContentHashRequest, IContentHashResponse, TTxCallRequest, TTxCallResponse, TTxStatusRequest, TTxStatusResponse, ITxStatus, IKeyInfo } from 'gachain/api';
+
 export type TRequestMethod =
     'get' |
     'post';
-
-export type TBodyType = 
-    'formdata' |
-    'payload';
 
 export interface IRequest {
     method: TRequestMethod;
@@ -38,7 +18,7 @@ export interface IRequest {
     headers?: {
         [key: string]: string;
     };
-    body?: FormData | any;
+    body?: FormData;
 }
 
 export interface IRequestOptions<P, R> {
@@ -46,7 +26,7 @@ export interface IRequestOptions<P, R> {
         [key: string]: string;
     };
     requestTransformer?: (request: P) => { [key: string]: any };
-    responseTransformer?: (response: any, text: string) => R;
+    responseTransformer?: (response: any, text: string, request: P) => R;
 }
 
 export interface IEndpointFactory {
@@ -76,10 +56,8 @@ export interface ISecuredRequestParams extends IRequestParams {
 
 export interface IAPIOptions {
     apiHost: string;
-    apiEndpoint: string;
-    transport: IRequestTransport;
-    bodyType?: TBodyType;
-    isEndpoint?: boolean;
+    apiEndpoint?: string;
+    transport?: IRequestTransport;
     session?: string;
     requestOptions?: IRequestOptions<any, any>;
 }
@@ -90,6 +68,26 @@ class GachainAPI {
 
     constructor(options: IAPIOptions) {
         this._options = {
+            transport: request => fetch(request.url, {
+                method: request.method,
+                headers: request.headers,
+                body: request.body
+
+            }).then(response =>
+                Promise.all([
+                    response.clone().json(),
+                    response.clone().text()
+
+                ]).then(result => ({
+                    json: result[0],
+                    body: result[1]
+
+                }))
+
+            ).catch(e => {
+                throw e && e.response && e.response.data ? e.response.data.error : null;
+            }),
+            apiEndpoint: 'api/v2',
             ...options
         };
 
@@ -108,16 +106,6 @@ class GachainAPI {
         return formData;
     }
 
-    protected serializeRequestPayload(values: { [key: string]: any }) {
-        const requestPayload: { [key: string]: any } = {};
-        for (let itr in values) {
-            if (values.hasOwnProperty(itr) && values[itr]) {
-                requestPayload[itr] = values[itr];
-            }
-        }
-        return JSON.stringify(requestPayload);
-    }
-
     protected request = async <P, R>(method: TRequestMethod, endpoint: string, requestParams: P, options: IRequestOptions<P, R> = {}) => {
         const requestEndpoint = urlTemplate.parse(endpoint).expand(requestParams);
         const requestUrl = urlJoin(this._options.apiHost, this._options.apiEndpoint, requestEndpoint);
@@ -128,12 +116,12 @@ class GachainAPI {
             ...this._defaultOptions,
             ...options
         };
+
         let json: any = null;
         let text: string = null;
+
         const query = 'get' === method ? queryString.stringify(params) : '';
-        const body = 'get' === method ? 
-            null : this._options.bodyType === 'payload' ? 
-            this.serializeRequestPayload(params) : this.serializeFormData(params);
+        const body = 'get' === method ? null : this.serializeFormData(params);
 
         try {
             const response = await this._options.transport({
@@ -163,7 +151,7 @@ class GachainAPI {
             throw json;
         }
         else {
-            return requestOptions.responseTransformer ? requestOptions.responseTransformer(json, text) : json;
+            return requestOptions.responseTransformer ? requestOptions.responseTransformer(json, text, requestParams) : json;
         }
     }
 
@@ -201,9 +189,11 @@ class GachainAPI {
 
     // Authorization
     public getUid = this.setEndpoint<IUIDResponse>('get', 'getuid', {
+        requestTransformer: request => null,
         responseTransformer: response => ({
             token: response.token,
-            uid: 'LOGIN' + response.uid
+            networkID: parseInt(response.network_id, 10),
+            uid: 'LOGIN' + response.network_id + response.uid
         })
     });
     public login = this.setSecuredEndpoint<ILoginRequest, ILoginResponse>('post', 'login', {
@@ -219,69 +209,6 @@ class GachainAPI {
             roles: response.roles || []
         })
     });
-
-    public getEcosystemKey = this.setEndpoint<IEcosystemKeyRequest, IEcosystemKeyResponse>('post', 'get_ecosystem_key', {
-        requestTransformer: request => ({
-            head: {
-                interface: request.interface,
-                msgtype: request.msgtype,
-                remark: request.remark,
-                version: request.version,
-            },
-            params: {
-                cmd: request.cmd,
-                page_size: request.page_size,
-                current_page: request.current_page,
-                ecosystem: parseInt(request.ecosystem, 10),
-                wallet: request.wallet.toString(),
-            }
-        }),
-        responseTransformer: response => ({
-            ...response,
-        })
-    });
-
-    public getFlowingWater = this.setEndpoint<IFlowingWaterRequest, IFlowingWaterResponse>('post', 'get_find_tranhistory', {
-        requestTransformer: request => ({
-            head: {
-                interface: request.interface,
-                msgtype: request.msgtype,
-                remark: request.remark,
-                version: request.version,
-            },
-            params: {
-                cmd: request.cmd,
-                current_page: request.current_page,
-                ecosystem: parseInt(request.ecosystem, 10),
-                page_size: request.page_size,
-                searchType: request.searchType,
-                wallet: request.wallet.toString(),
-            }
-        }),
-        responseTransformer: response => ({
-            ...response,
-        })
-    });
-
-    public getTotalWater = this.setEndpoint<ITotalWaterRequest, ITotalWaterResponse>('post', 'get_wallettotal', {
-        requestTransformer: request => ({
-            head: {
-                interface: request.interface,
-                msgtype: request.msgtype,
-                remark: request.remark,
-                version: request.version,
-            },
-            params: {
-                cmd: request.cmd,
-                ecosystem: parseInt(request.ecosystem, 10),
-                wallet: request.wallet.toString(),
-            }
-        }),
-        responseTransformer: response => ({
-            ...response,
-        })
-    });
-
     public keyinfo = this.setEndpoint<{ id: string }, IKeyInfo[]>('get', 'keyinfo/{id}', {
         requestTransformer: request => null
     });

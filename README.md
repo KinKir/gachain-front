@@ -22,14 +22,12 @@
 
 ### 配置示例
 - fullNodes 配置主节点地址
-- explorerHost 配置区块浏览器服务端地址
 
 ```json
 {
     "fullNodes": [
         "https://devnode1.gac.one:9079"
     ],
-    "explorerHost": "https://devexplore.gac.one:8800/api"
 }
 ```
 
