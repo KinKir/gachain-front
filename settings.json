@@ -1,1 +1,1 @@
-{"networks":[{"key":"prebuilt_localnet","name":"Gachain LocalHost Network","networkID":1,"fullNodes":["http://localhost:7079"]}]}
+{"defaultLocale":"en-US","networks":[{"key":"prebuilt_localnet","name":"Gachain LocalHost Network","networkID":1,"fullNodes":["http://localhost:7079"]}]}

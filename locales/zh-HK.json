@@ -1,6 +1,5 @@
 {
     "LANG_NAME": "中文 (繁體)",
-    "main.website": "智乾區塊鏈",
     "wallet.create": "創建賬戶",
     "wallet.createimport": "創建或導入賬戶",
     "wallet.createimport.desc": "恢復現有的賬戶或註冊新賬戶",
@@ -176,6 +175,9 @@
     "interface.block": "界面模板",
     "interface.menu": "菜單",
     "interface.page": "頁面",
+    "legal.about": "Govis - Gachain開發的一種軟件產品。它與使用Gachain協議構建的區塊鏈網絡一起工作.",
+    "legal.copy": "Gachain © 2017-2019 - ",
+    "legal.homepage": "https://gachain.org",
     "map.area": "區域:{value}",
     "map.editor": "地圖編輯器",
     "map.meter.short": "m",

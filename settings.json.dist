@@ -1,4 +1,5 @@
 {
+    "defaultLocale": "en-US",
     "defaultNetwork": "DEFAULT_NETWORK",
     "networks": [
         {
