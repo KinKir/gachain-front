@@ -1,6 +1,5 @@
 {
     "LANG_NAME": "English (US)",
-    "main.website":"Gachain",
     "wallet.create": "Create account",
     "wallet.createimport": "Create or import account",
     "wallet.createimport.desc": "Restore your existing account or enroll a new one",
@@ -171,6 +170,9 @@
     "interface.block": "Block",
     "interface.menu": "Menu",
     "interface.page": "Page",
+    "legal.about": "Govis - a software product developed by Gachain. It works with blockchain networks that are built to use Gachain Protocol",
+    "legal.copy": "Gachain © 2017-2019 - ",
+    "legal.homepage": "https://gachain.org",
     "map.area": "Area: {value}",
     "map.editor": "Map editor",
     "map.meter.short": "m",

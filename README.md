@@ -25,6 +25,7 @@
 
 ```json
 {
+    "defaultLocale": "en-US",
     "defaultNetwork": "DEFAULT_NETWORK",
     "networks": [
         {
@@ -42,6 +43,8 @@
     ]
 }
 ```
+
+- **defaultLocale** - 默认使用的语言
 - **defaultNetwork** - 将自动连接的默认网络的键
 - **networks.key** - 指定网络的唯一键
 - **networks.name** - 一个可读的网络名称，将显示在页面中
@@ -53,6 +56,7 @@
 - **networks.disableSync** - 可选参数，禁用完整节点的同步。不安全，谨慎使用
 
 ### 获取代码
+
 `$ git clone https://github.com/GACHAIN/gachain-front.git`
 
 ### 安装依赖

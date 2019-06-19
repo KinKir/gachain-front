@@ -8,4 +8,10 @@ declare module 'gachain' {
         name: string;
         message: string;
     }
+
+    interface ILocale {
+        key: string;
+        name: string;
+        enabled: boolean;
+    }
 }

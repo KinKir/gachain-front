@@ -1,6 +1,5 @@
 {
     "LANG_NAME": "日本語",
-    "main.website": "スマートトランクブロックチェーン",
     "wallet.create": "財布を作成する",
     "wallet.createimport": "財布を作成またはインポート",
     "wallet.createimport.desc": "既存のウォレットを復元するか新しいウォレットを登録する",
@@ -178,6 +177,9 @@
     "interface.block": "インタフェーステンプレート",
     "interface.menu": "メニュー",
     "interface.page": "ページ",
+    "legal.about": "Govis - Gachain社が開発したソフトウエア製品。Gachainプロトコルを使用して構築されたブロックチェーンネットワークと共に動作する。",
+    "legal.copy": "Gachain © 2017-2019 - ",
+    "legal.homepage": "https://gachain.org",
     "map.area": "ゾーン：{値}",
     "map.editor": "マップエディタ",
     "map.meter.short": "M",
