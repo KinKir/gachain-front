@@ -44,7 +44,7 @@ deploy:
   keep-history: true
   target-branch: gh-pages
   local-dir: build
-  fqdn: front.gac.one
+  fqdn: govis.gac.one
   github-token: $GH_TOKEN
   on:
     branch: master
