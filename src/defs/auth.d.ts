@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 declare module 'gachain/auth' {
-    import { IAccount, IKeyInfo, IRoleInfo } from 'gachain/api';
+    import { IAccount, IKeyInfo, IRoleInfo, IEcosystemInfo } from 'gachain/api';
 
     interface INetworkEndpoint {
         uuid: string;
@@ -26,7 +26,6 @@ declare module 'gachain/auth' {
         id: string;
         encKey: string;
         publicKey: string;
-        address: string;
     }
 
     interface ISaveEncKeyCall {
@@ -41,7 +40,7 @@ declare module 'gachain/auth' {
 
     interface IAccountContext {
         wallet: IAccount;
-        access: IKeyInfo;
+        access: IEcosystemInfo;
         role?: IRoleInfo;
     }
 

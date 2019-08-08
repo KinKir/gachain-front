@@ -7,7 +7,7 @@ declare module 'gachain/socket' {
     interface INotificationsMessage {
         id: string;
         ecosystem: string;
-        role: number;
+        role: string;
         count: number;
     }
 
