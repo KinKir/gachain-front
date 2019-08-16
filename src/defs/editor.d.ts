@@ -27,6 +27,7 @@ declare module 'gachain/editor' {
 
     type TEditorTab = {
         readonly type: string;
+        readonly uuid: string;
         readonly id: string;
         readonly new: boolean;
         readonly name: string;
@@ -48,14 +49,10 @@ declare module 'gachain/editor' {
     };
 
     interface IEditorTabCreateCall {
+        uuid: string;
         id: string;
         name: string;
         value: string
-    }
-
-    interface ICreateEditorTabCall{
-        type: string;
-        appId: number;
     }
 
     interface ILoadEditorTabCall {

@@ -11,11 +11,11 @@ import { FormattedMessage } from 'react-intl';
 import Modal from './';
 
 class AboutModal extends Modal<void, void> {
-    openWebsite() {
+    openWebsite = () => {
         const electron = require('electron');
         electron.shell.openExternal(this.props.intl.formatMessage({
             id: 'legal.homepage',
-            defaultMessage: 'https://gachain.org'
+            defaultMessage: 'https://gachain.io'
         }));
     }
 
@@ -32,10 +32,10 @@ class AboutModal extends Modal<void, void> {
                             {process.env.REACT_APP_VERSION ? `v${process.env.REACT_APP_VERSION}` : 'DEVELOPER BUILD'}
                         </div>
                         <div>
-                            <FormattedMessage id="legal.about" defaultMessage="Govis - a software product developed by Gachain. It works with blockchain networks that are built to use Gachain Protocol" />
+                            <FormattedMessage id="legal.about" defaultMessage="Molis - a software product developed by Gachain. It works with blockchain networks that are built to use Gachain Protocol" />
                         </div>
                         <Button bsStyle="link" onClick={this.openWebsite}>
-                            <FormattedMessage id="legal.homepage" defaultMessage="https://gachain.org" />
+                            <FormattedMessage id="legal.homepage" defaultMessage="https://gachain.io" />
                         </Button>
                     </div>
                 </Modal.Body>

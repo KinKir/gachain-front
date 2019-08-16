@@ -1,9 +1,11 @@
 /*---------------------------------------------------------------------------------------------
- *  Copyright (c) GACHAIN All rights reserved.
- *  See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+*  Copyright (c) GACHAIN All rights reserved.
+*  See LICENSE in the project root for license information.
+*--------------------------------------------------------------------------------------------*/
 
 declare module 'gachain/protypo' {
+    import { TBreadcrumbType } from 'gachain/content';
+
     type TProtypoElement = {
         readonly tag: string;
         readonly id?: string;
@@ -38,6 +40,7 @@ declare module 'gachain/protypo' {
 
     interface IButtonPage {
         name: string;
+        section: string;
         params: {
             [key: string]: any;
         };
@@ -50,9 +53,21 @@ declare module 'gachain/protypo' {
         };
     }
 
+    interface IAction {
+        name: string;
+        params?: {
+            [key: string]: string;
+        };
+    }
+
     interface IButtonInteraction {
         uuid: string;
         silent?: boolean;
+        from: {
+            name: string;
+            section: string;
+            type: TBreadcrumbType;
+        };
         confirm?: IButtonConfirm;
         contracts: {
             name: string;
@@ -64,6 +79,7 @@ declare module 'gachain/protypo' {
         popup?: IButtonPopup;
         errorRedirects?: {
             [key: string]: IErrorRedirect
-        }
+        },
+        actions: IAction[];
     }
 }

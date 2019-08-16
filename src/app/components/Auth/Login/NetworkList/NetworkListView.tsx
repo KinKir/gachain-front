@@ -69,10 +69,10 @@ class NetworkListView extends React.Component<INetworkListViewProps & InjectedIn
                 bordered
                 hover
                 columns={[
-                    { title: this.props.intl.formatMessage({ id: 'general.network.id.short', defaultMessage: 'ID' }), width: 5 },
+                    { title: this.props.intl.formatMessage({ id: 'general.network.id.short', defaultMessage: 'ID' })},
                     { title: this.props.intl.formatMessage({ id: 'general.network.name', defaultMessage: 'Name' }) },
-                    { title: this.props.intl.formatMessage({ id: 'general.network.full_nodes', defaultMessage: 'Nodes' }), width: 1 },
-                    { title: this.props.intl.formatMessage({ id: 'general.network.actions', defaultMessage: 'Actions' }), width: 1 }
+                    { title: this.props.intl.formatMessage({ id: 'general.network.full_nodes', defaultMessage: 'Nodes' })},
+                    { title: this.props.intl.formatMessage({ id: 'general.network.actions', defaultMessage: 'Actions' })}
                 ]}
                 data={[
                     ...this.props.preconfiguredNetworks.map(network => this.buildRow(network, true)),

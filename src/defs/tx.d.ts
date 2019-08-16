@@ -61,6 +61,7 @@ declare module 'gachain/tx' {
     interface ITransactionCall {
         uuid: string;
         silent?: boolean;
+        section?: string;
         contracts: {
             name: string;
             params: {
@@ -68,7 +69,7 @@ declare module 'gachain/tx' {
             }[];
         }[];
         errorRedirects?: {
-            [key: string]: IErrorRedirect
+            [key: string]: IErrorRedirect;
         }
     }
 

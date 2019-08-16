@@ -4,9 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 
 declare module 'gachain/gui' {
-    type TWindowType =
-        'general' | 'main';
-
     interface IInferredArguments {
         readonly privateKey?: string;
         readonly fullNode?: string[];
