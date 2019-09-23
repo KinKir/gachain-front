@@ -6,7 +6,7 @@
 // tslint:disable:no-bitwise
 import { Uint64BE } from 'int64-buffer';
 
-export const MONEY_POWER = 18;
+export const MONEY_POWER = 12;
 
 export const toHex = (buffer: ArrayBuffer): string => {
     return Array.prototype.map.call(new Uint8Array(buffer), (x: number) =>
