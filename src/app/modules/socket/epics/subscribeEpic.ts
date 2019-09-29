@@ -29,7 +29,7 @@ const subscribeEpic: Epic = (action$, store) => action$.ofAction(subscribe.start
         }
         else {
             return Observable.create((observer: Observer<Action>) => {
-                const sub = state.socket.socket.subscribe<{ role_id: string, ecosystem: string, count: number }[]>('client' + action.payload.id, message => {
+                const sub = state.socket.socket.subscribe('client' + action.payload.address, (message: { data: { role_id: string, ecosystem: string, count: number }[] }) => {
                     let count = 0;
 
                     message.data.forEach(n => {

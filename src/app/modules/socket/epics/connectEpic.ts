@@ -8,8 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Epic } from 'redux-observable';
 import { IRootState } from 'modules';
 import { connect, disconnect, setConnected } from '../actions';
-import * as Centrifuge from 'centrifuge';
-import SockJS from 'sockjs-client';
+import Centrifuge from 'centrifuge';
 import { Observer } from 'rxjs';
 
 const connectEpic: Epic<Action, IRootState> =
@@ -19,13 +18,8 @@ const connectEpic: Epic<Action, IRootState> =
                 return Observable.create((observer: Observer<Action>) => {
                     observer.next(disconnect.started(null));
 
-                    const centrifuge = new Centrifuge({
-                        url: action.payload.wsHost,
-                        user: action.payload.userID,
-                        timestamp: action.payload.timestamp,
-                        token: action.payload.socketToken,
-                        sockJS: SockJS
-                    });
+                    const centrifuge = new Centrifuge(action.payload.wsHost + '/connection/websocket');
+                    centrifuge.setToken(action.payload.socketToken);
 
                     centrifuge.on('connect', context => {
                         observer.next(connect.done({
