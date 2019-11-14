@@ -38,6 +38,8 @@
     "auth.error.E_DELETEDKEY": "賬戶已從生態系統中刪除",
     "auth.error.E_OFFLINE": "無法連接到服務",
     "auth.error.E_UPDATING": "節點正在更新，請稍後重試",
+    "auth.error.E_NEWUSER": "服務繁忙，請稍後重試",
+    "auth.error.E_ECONOTOPEN": "該生態系統不是開放的，無法註冊地址",
     "auth.backup.invalid": "提供的私鑰已損壞或包含無效的數據",
     "auth.generate.new": "生成新私鑰",
     "auth.getstarted": "開始使用",

@@ -38,6 +38,8 @@
     "auth.error.E_OFFLINE": "Could not connect to the service",
     "auth.error.E_SERVER": "Server authentication error",
     "auth.error.E_UPDATING": "Node is updating blockchain. Try again later",
+    "auth.error.E_NEWUSER": "The service is busy, please try again later",
+    "auth.error.E_ECONOTOPEN": "The ecosystem is not open and cannot be registered address",
     "auth.backup.invalid": "Provided key is corrupted or contains invalid data",
     "auth.generate.new": "Generate new key",
     "auth.getstarted": "Get started",
