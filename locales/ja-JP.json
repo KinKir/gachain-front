@@ -39,6 +39,8 @@
     "auth.error.E_OFFLINE": "サービスに接続できません",
     "auth.error.E_SERVER": "サーバーのアイデンティティ検証を誤っています",
     "auth.error.E_UPDATING": "ノードは更新中です。後でもう一度やり直してください。",
+    "auth.error.E_NEWUSER": "サービスはビジーです。しばらくしてからもう一度お試しください",
+    "auth.error.E_ECONOTOPEN": "エコシステムは開かれておらず、登録できません",
     "auth.backup.invalid": "提供された秘密鍵が破損しているか無効なデータを含んでいます",
     "auth.generate.new": "新しい秘密鍵を生成する",
     "auth.getstarted": "はじめよう",

@@ -39,6 +39,8 @@
     "auth.error.E_OFFLINE": "无法连接到服务",
     "auth.error.E_SERVER": "服务器身份验证失败",
     "auth.error.E_UPDATING": "节点正在更新，请稍后重试",
+    "auth.error.E_NEWUSER": "服务繁忙，请稍后重试",
+    "auth.error.E_ECONOTOPEN": "该生态系统不是开放的，无法注册地址",
     "auth.backup.invalid": "提供的私钥已损坏或包含无效的数据",
     "auth.generate.new": "生成新私钥",
     "auth.getstarted": "开始使用",
